@@ -24,8 +24,8 @@ def individual_states(state_id):
     linked to any object """
     state = storage.get("State", state_id)
     if state is None:
-        abort(404)
-    return jsonify(state.to_dict())
+        abort(404, 'Not found')
+    return jsonify(state.to_json())
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -35,9 +35,8 @@ def delete_state(state_id):
     linked to any object """
     state = storage.get("State", state_id)
     if state is None:
-        abort(404)
-    state.delete()
-    storage.save()
+        abort(404, 'Not found')
+    del state
     return jsonify({})
 
 
@@ -56,7 +55,7 @@ def create_state():
     new_state = State()
     new_state.name = name
     new_state.save()
-    return (jsonify(new_state.to_dict())), 201
+    return (jsonify(new_state.to_json())), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
