@@ -33,7 +33,7 @@ def individual_places(place_id):
     place = storage.get("Place", place_id)
     if place is None:
         abort(404)
-    return jsonify(place.to_dict())
+    return jsonify(place.to_json())
 
 
 @app_views.route('/places/<place_id>', methods=['DELETE'],
@@ -46,7 +46,7 @@ def delete_place(place_id):
         abort(404)
     place.delete()
     storage.save()
-    return jsonify({})
+    return jsonify({}), 200
 
 
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
@@ -78,7 +78,7 @@ def create_place(city_id):
     for key, value in data.items():
         setattr(new_place, key, value)
     new_place.save()
-    return (jsonify(new_place.to_dict())), 201
+    return (jsonify(new_place.to_json())), 201
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
@@ -96,4 +96,4 @@ def update_place(place_id):
         if k not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
             setattr(place, k, v)
     place.save()
-    return (jsonify(place.to_dict()))
+    return (jsonify(place.to_json())), 200
