@@ -1,5 +1,6 @@
+const $ = window.$;
 $('document').ready(function () {
-  const url =  'http://0.0.0.0:5001/api/v1/status/';
+  const url = 'http://0.0.0.0:5001/api/v1/status/';
   $.get(url, function (response) {
     if (response.status === 'OK') {
       $('div#api_status').addClass('available');
@@ -8,7 +9,7 @@ $('document').ready(function () {
     }
   });
 
-  let amenities = {};
+  const amenities = {};
   $('INPUT[type="checkbox"]').change(function () {
     if ($(this).is(':checked')) {
       amenities[$(this).attr('data-id')] = $(this).attr('data-name');
